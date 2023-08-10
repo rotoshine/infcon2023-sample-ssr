@@ -8,11 +8,7 @@ export default function Layout({ children }: Props) {
     <>
       <nav className="navbar p-4 bg-neutral flex gap-4">
         <Link to="/" aria-label="홈으로 이동">
-          <img
-            className="h-10"
-            src="/public/images/logo.webp"
-            alt="인디스트릿 로고"
-          />
+          <img className="h-10" src="/images/logo.webp" alt="인디스트릿 로고" />
         </Link>
         <Link className="btn btn-ghost normal-case text-xl" to="/musicians/">
           뮤지션 목록
