@@ -12,7 +12,6 @@ const external = [
   "../dist/entry-server.js",
 ];
 
-console.log(external);
 build({
   entryPoints: ["./src/_start.ts", "./src/_serverless.ts"],
   outdir: "dist",

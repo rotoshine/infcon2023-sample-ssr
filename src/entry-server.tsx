@@ -13,7 +13,7 @@ import {
   QueryClientProvider,
   dehydrate,
 } from "@tanstack/react-query";
-import { fetchMusicians } from "./hooks/useFetchMusicians";
+import { fetchMusician, fetchMusicians } from "./hooks/useFetchMusicians";
 
 interface RenderingProps {
   template: string;
@@ -40,6 +40,14 @@ export async function render({ template, req }: RenderingProps) {
   if (req.url === "/musicians/") {
     console.log("prefetch~");
     await queryClient.prefetchQuery(["musicians"], fetchMusicians);
+  }
+
+  const musicianDetailRegex = /^\/musicians\/([^/]+)\/$/;
+  const match = req.url.match(musicianDetailRegex);
+
+  if (match) {
+    const musicianId = match[1];
+    await queryClient.prefetchQuery(["musicians", musicianId], () => fetchMusician(musicianId));
   }
 
   const dehydratedState = dehydrate(queryClient);
