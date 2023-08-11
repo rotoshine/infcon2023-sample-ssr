@@ -13,6 +13,7 @@ import {
 const router = createBrowserRouter(routes);
 
 const dehydratedState = window.__REACT_QUERY_STATE__;
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
