@@ -13,11 +13,17 @@ import {
   QueryClientProvider,
   dehydrate,
 } from "@tanstack/react-query";
-import { fetchMusician, fetchMusicians } from "./hooks/useFetchMusicians";
+import { fetchMusicians } from "./hooks/useFetchMusicians";
+import { fetchMusician } from "./hooks/useFetchMusician";
 
 interface RenderingProps {
   template: string;
-  req: FastifyRequest;
+  req: FastifyRequest<
+  {
+    Querystring: {
+      delayMs?: string;
+    }
+  }>;
   reply: FastifyReply;
 }
 
@@ -36,18 +42,20 @@ export async function render({ template, req }: RenderingProps) {
   const context = (await handler.query(fetchRequest)) as StaticHandlerContext;
   const router = createStaticRouter(handler.dataRoutes, context);
 
-  console.log(req.url);
-  if (req.url === "/musicians/") {
+  const delayMs = req.query.delayMs ? parseInt(req.query.delayMs as string) : undefined;
+
+  const url = req.url.split('?')[0]
+  if (url === "/musicians/") {
     console.log("prefetch~");
-    await queryClient.prefetchQuery(["musicians"], fetchMusicians);
+    await queryClient.prefetchQuery(["musicians"], () => fetchMusicians(delayMs));
   }
 
   const musicianDetailRegex = /^\/musicians\/([^/]+)\/$/;
-  const match = req.url.match(musicianDetailRegex);
+  const match = url.match(musicianDetailRegex);
 
   if (match) {
     const musicianId = match[1];
-    await queryClient.prefetchQuery(["musicians", musicianId], () => fetchMusician(musicianId));
+    await queryClient.prefetchQuery(["musicians", musicianId], () => fetchMusician(musicianId, delayMs));
   }
 
   const dehydratedState = dehydrate(queryClient);
