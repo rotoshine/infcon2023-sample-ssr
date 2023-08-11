@@ -5,6 +5,7 @@ import Fastify from "fastify";
 import fs from "fs/promises";
 import path from "path";
 
+dotenv.config()
 const HOST = "0.0.0.0";
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 9999;
 
