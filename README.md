@@ -7,6 +7,13 @@ CSR로 구현된 샘플 페이지 입니다. `vite + react + typescript + fastif
 - `yarn install`
 - `yarn build && yarn start`
 
+## Demo Page
+
+- https://ssr.infcon2023.roto.codes/
+  - 뮤지션 목록, 상세 페이지에 delayMs 파라메터를 주면 지연 상황을 시뮬레이트 할 수 있습니다.
+  - 예) https://ssr.infcon2023.roto.codes/musicians/?delayMs=5000
+
+
 ## 그외 프로젝트
 
 - CSR 구현 샘플: https://github.com/rotoshine/infcon2023-sample-csr
